@@ -23,6 +23,7 @@ services:
   nginx:
     build: .docker/nginx
     container_name: nginx
+    entrypoint: dockerize -template ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
     restart: always
     tty: true
     ports:
@@ -33,6 +34,10 @@ services:
       - app-network
     depends_on:
       - app
+    environment:
+      - NGINX_HOST=http://code.laravel
+      - PHP_PORT_FPM=9000
+    command: [nginx, '-g', 'daemon off;']
 
 
   db:
