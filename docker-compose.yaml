@@ -35,7 +35,7 @@ services:
     depends_on:
       - app
     environment:
-      - NGINX_HOST=http://code.laravel
+      - NGINX_HOST=app
       - PHP_PORT_FPM=9000
     command: [nginx, '-g', 'daemon off;']
 
