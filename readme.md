@@ -74,3 +74,7 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 ## Repositório Docker Hub
 
 https://cloud.docker.com/repository/docker/alexandrecorrea/laravel
+
+## Repositório Docker Hub - desafio docker
+
+https://cloud.docker.com/u/alexandrecorrea/repository/docker/alexandrecorrea/codeeducation
