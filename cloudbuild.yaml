@@ -2,7 +2,7 @@ steps:
 
   - id: "PERMISSÃO ENTRYPOINT.SH"
     name: 'gcr.io/cloud-builders/docker'
-    args: ['exec','-t','app','chmod','-R','755','./.docker/entrypoint.sh']
+    args: ['chmod','-R','755','./.docker/entrypoint.sh']
 
   - id: "RODANDO DOCKER-COMPOSE"
     name: 'gcr.io/$PROJECT_ID/docker-compose'
