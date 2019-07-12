@@ -13,6 +13,8 @@ RUN rm -rf /var/www/html
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+#RUN chmod -R 775 storage
+
 #RUN composer install && \
 #            cp .env.exemple .ev && \
 #            php artisan key:generate && \
@@ -22,5 +24,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN ln -s public html
 
 EXPOSE 9000
+
+RUN chmod -R 775 ./.docker/entrypoint.sh
 
 ENTRYPOINT ["php-fpm"]
