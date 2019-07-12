@@ -25,6 +25,6 @@ RUN ln -s public html
 
 EXPOSE 9000
 
-RUN chmod -R 775 /.docker/entrypoint.sh
+RUN chmod -R 775 .docker/entrypoint.sh
 
 ENTRYPOINT ["php-fpm"]
