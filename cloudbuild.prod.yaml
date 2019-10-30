@@ -34,8 +34,27 @@ steps:
 
   - id: "BUILDING IMAGE FROM DOCKERFILE.PROD"
     name: 'gcr.io/cloud-builders/docker'
-    args: ['build','-t','app','grc.io/$PROJECT_ID/app-laravel:$SHORT_SHA', '-f', 'Dockerfile.prod','.']
+    args: ['build','-t','grc.io/$PROJECT_ID/app-laravel:$SHORT_SHA','-f','Dockerfile.prod','.']
 
   - id: "PUSHING IMAGE"
     name: 'gcr.io/cloud-builders/docker'
-    args: ['push','-t','app','grc.io/$PROJECT_ID/app-laravel:$SHORT_SHA']
+    args: ['push','-t','grc.io/$PROJECT_ID/app-laravel:$SHORT_SHA']
+
+  - id: "ADUSTING DEPLOYMENT FILE - K8S"
+    name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: '/bin/sh'
+    args: 
+      - '-c'
+      - |
+        sed 's#img-app-deployment#grc.io/$PROJECT_ID/app-laravel:$SHORT_SHA#g' k8s/app/deployment.yaml > k8s/app/deployment-new.yaml;
+        cat k8s/app/deployment-new.yaml;
+  
+  - id: "DEPLOYING K8S"
+    name: 'gcr.io/cloud-builders/kubectl'
+    args: 
+      - 'apply'
+      - '-f'
+      - 'k8s/app/deployment-new.yaml'
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-docker-laravel'

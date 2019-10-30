@@ -8,13 +8,13 @@ RUN rm -rf /var/www/html
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN chmod -R 775 storage
+#RUN chmod -R 775 storage
 
 COPY . /var/www
 
 RUN composer install && \
-            #php artisan chmod -R 775 storage && \
             php artisan config:cache && \
+            chmod -R 777 storage && \
 
 
 RUN ln -s public html
