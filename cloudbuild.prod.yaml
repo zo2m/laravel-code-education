@@ -38,7 +38,7 @@ steps:
 
   - id: "PUSHING IMAGE"
     name: 'gcr.io/cloud-builders/docker'
-    args: ['push','-t','grc.io/$PROJECT_ID/app-laravel:$SHORT_SHA']
+    args: ['push','grc.io/$PROJECT_ID/app-laravel:$SHORT_SHA']
 
   - id: "ADUSTING DEPLOYMENT FILE - K8S"
     name: 'gcr.io/cloud-builders/gcloud'
