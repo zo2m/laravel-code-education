@@ -1,16 +1,24 @@
 steps:
 
   - id: "RODANDO DOCKER-COMPOSE"
-    name: 'gcr.io/$PROJECT_ID/docker-compose:1.24.0'
+    name: 'gcr.io/$PROJECT_ID/docker-compose'
     args: ['-f', 'docker-compose.cloudbuild.yaml', 'up', '-d']
+
+  - id: "RODANDO DOCKER PS"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['ps']
+
+  - id: "RODANDO LOG APP"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['logs', 'app']
 
   - id: "RODANDO COMPOSER"
     name: 'gcr.io/cloud-builders/docker'
     args: ['exec','-t','app','composer','install']
 
-  - id: "Copiando .env"
-    name: 'gcr.io/cloud-builders/docker'
-    args: ['exec','-t','app','cp','.env.example','.env']
+  #- id: "Copiando .env"
+  #  name: 'gcr.io/cloud-builders/docker'
+  #  args: ['exec','-t','app','cp','.env.example','.env']
 
   - id: "RODANDO KEY:GENERATE"
     name: 'gcr.io/cloud-builders/docker'
@@ -26,11 +34,11 @@ steps:
 
   - id: "BUILDING IMAGE FROM DOCKERFILE.PROD"
     name: 'gcr.io/cloud-builders/docker'
-    args: ['build','-t','gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA','-f','Dockerfile.prod','.']
+    args: ['build','-t','grc.io/$PROJECT_ID/app-laravel:$SHORT_SHA','-f','Dockerfile.prod','.']
 
   - id: "PUSHING IMAGE"
     name: 'gcr.io/cloud-builders/docker'
-    args: ['push','grc.io/$PROJECT_ID/app-laravel:$SHORT_SHA']
+    args: ['push','gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA']
 
   - id: "ADUSTING DEPLOYMENT FILE - K8S"
     name: 'gcr.io/cloud-builders/gcloud'
